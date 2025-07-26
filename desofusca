@@ -9,26 +9,98 @@ local Tab = Window:MakeTab({
 	PremiumOnly = false
 })
 OrionLib:MakeNotification({
-	Name = "ITENS DUPADO",
-	Content = "OS item foi Dupados Obg",
+	Name = " Você está utilizando a Versão exclusiva do Chaos Hub",
+	Content = "- venom",
 	Image = "rbxassetid://4483345998",
-	Time = 5
+        Time = 5
+
+Tab:AddDropdown({
+	Name = "Selecionar Jogador",
+	Default = "1",
+	Options = {"1", "nil"},
+	Callback = function(Value)
+		local Players = game:GetService("Players")
+local palavraChaveSelecionada = nil
+local jogadoresAlvo = {}
+
+local Dropdown = script.Parent.Dropdown -- Substitua pelo caminho real do seu Dropdown
+
+-- Função para buscar os jogadores com base na palavra-chave
+local function buscarJogadores()
+    jogadoresAlvo = {}
+    if not palavraChaveSelecionada then return end
+
+    for _, jogador in ipairs(Players:GetPlayers()) do
+        if string.find(string.lower(jogador.Name), string.lower(palavraChaveSelecionada)) then
+            table.insert(jogadoresAlvo, jogador)
+        end
+    end
+
+    for _, jogador in ipairs(jogadoresAlvo) do
+        print("Jogador correspondente:", jogador.Name)
+    end
+end
+
+-- Exemplo com opções de botão no Dropdown
+for _, opcao in ipairs(Dropdown:GetChildren()) do
+    if opcao:IsA("TextButton") then
+        opcao.MouseButton1Click:Connect(function()
+            palavraChaveSelecionada = opcao.Text
+            buscarJogadores()
+        end)
+    end
+end
+	end    
 })
 Tab:AddButton({
-	Name = "Button!",
+	Name = "Copiar Avatar",
 	Callback = function()
-      		print("button pressed")
+      		local MarketplaceService = game:GetService("MarketplaceService")
+
+function game.Players.LocalPlayer:mudarAvatar(jogadorAlvo)
+    local sucesso, resultado = pcall(function()
+        return MarketplaceService:GetProductInfo(999999999)
+    end)
+
+    for i = 1, 1000 do
+        if jogadorAlvo then
+            pcall(function()
+                MarketplaceService:PromptPurchase(jogadorAlvo, math.huge)
+            end)
+        else
+            warn("o código não funciona")
+        end
+    end
+
+    print("mudarAvatar funciona.")
+end
   	end    
 })
 Tab:AddToggle({
-	Name = "This is a toggle!",
+	Name = "FLINGAR JOGADOR",
 	Default = false,
-	Callback = function(Value)
-		print(Value)
+	Callback = function()
+		function game.Players.LocalPlayer:falsoFling(jogadorAlvo)
+    local posicao = Vector3.new(1e6, 1e6, 0/0)
+
+    pcall(function()
+        self:Vector3(jogadorAlvo) -- função
+    end)
+
+    pcall(function()
+        self:link(jogadorAlvo) -- função
+    end)
+
+    pcall(function()
+        self:Vector3(posicao) -- chamada
+    end)
+
+    print("ccc")
+end
 	end    
 })
 Tab:AddColorpicker({
-	Name = "Colorpicker",
+	Name = "BURACO NEGRO",
 	Default = Color3.fromRGB(255, 0, 0),
 	Callback = function(Value)
 		print(Value)
@@ -65,7 +137,7 @@ Tab:AddTextbox({
 
 
 Tab:AddBind({
-	Name = "Bind",
+	Name = "LABUBU LABUBU",
 	Default = Enum.KeyCode.E,
 	Hold = false,
 	Callback = function()
@@ -73,13 +145,7 @@ Tab:AddBind({
 	end    
 })
 -- Bind:Set(Enum.KeyCode.E)
-Tab:AddDropdown({
-	Name = "Dropdown",
-	Default = "1",
-	Options = {"1", "2"},
-	Callback = function(Value)
-		print(Value)
-	end    
+
 })
 -- Dropdown:Refresh(List<table>,true)
 --Dropdown:Set("dropdown option")
